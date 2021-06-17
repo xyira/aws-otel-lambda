@@ -5,9 +5,9 @@ COPY ./build.gradle ./build.gradle
 COPY ./src ./src
 COPY ./settings.gradle ./settings.gradle
 
-RUN gradle build
+RUN gradle build --warning-mode all
 RUN tar -xvf build/distributions/spark-sample-app-1.0.tar
-RUN gradle copyDependencies
+RUN gradle copyDependencies --warning-mode all
 
 FROM amazoncorretto:11 
 
