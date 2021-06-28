@@ -88,11 +88,7 @@ main () {
         rm -rf ecr_repo_name.tmp
         aws ecr describe-repositories --repository-name $repo > ecr_repo_name.tmp ||aws ecr create-repository --repository-name $repo --image-scanning-configuration scanOnPush=true > ecr_repo_name.tmp
         repoUri=$(cat ecr_repo_name.tmp |grep "repositoryUri" |cut -f 4 -d '"')
-        echo $repoUri "uri"
-        echo "step here"
-
         sam deploy --stack-name "$stack" --region "$region" --capabilities CAPABILITY_NAMED_IAM --resolve-s3  --image-repository "$repoUri"
-        echo "step here2"
         rm -rf aws_observability/aws_observability_collector
         rm -rf ecr_repo_name.tmp
     fi
