@@ -1,10 +1,11 @@
+
 #!/bin/bash
 
 set -e
 set -u
 
 echo_usage () {
-    echo "usage: Deploy ADOT Java Lambda Application from scratch"
+    echo "usage: Deploy Java Lambda Application from scratch"
     echo " -r <aws region>"
     echo " -t <cloudformation template>"
     echo " -b <sam build>"
@@ -24,7 +25,7 @@ main () {
     debug=false
     invoke=false
     layeronly=false
-    stack=${STACK-"adot-java-sample"}
+    stack=${STACK-"otel-java-sample"}
     repo="lambda-sample-app"
     region=${AWS_REGION-$(aws configure get region)}
 
@@ -69,13 +70,17 @@ main () {
 
     if [[ $build == true ]]; then
         rm -rf .aws-sam
-        echo "building aoc..."
-        rm -rf aws_observability/aws_observability_collector
-        mkdir -p aws_observability/aws_observability_collector
-        cp -r ../../extensions/aoc-extension/* aws_observability/aws_observability_collector
-        rm -rf aws_observability/build
-        mkdir -p aws_observability/build
-        cd aws_observability && make build-AOC
+        echo "building collector..."
+        rm -rf opentelemetry/opentelemetry_collector
+        mkdir -p opentelemetry/opentelemetry_collector
+        ls
+        rm -rf opentelemetry-lambda
+        git clone https://github.com/open-telemetry/opentelemetry-lambda.git
+        ls
+        cp -r opentelemetry-lambda/collector/* opentelemetry/opentelemetry_collector
+        rm -rf opentelemetry/build
+        mkdir -p opentelemetry/build
+        cd opentelemetry && make build
         if [[ $layeronly == false ]]; then
           echo "building sam..."
           cd ../ && sam build -u -t $template
@@ -89,7 +94,7 @@ main () {
         aws ecr describe-repositories --repository-name $repo > ecr_repo_name.tmp ||aws ecr create-repository --repository-name $repo --image-scanning-configuration scanOnPush=true > ecr_repo_name.tmp
         repoUri=$(cat ecr_repo_name.tmp |grep "repositoryUri" |cut -f 4 -d '"')
         sam deploy --stack-name "$stack" --region "$region" --capabilities CAPABILITY_NAMED_IAM --resolve-s3  --image-repository "$repoUri"
-        rm -rf aws_observability/aws_observability_collector
+        rm -rf opentelemetry/opentelemetry_collector
         rm -rf ecr_repo_name.tmp
     fi
 
@@ -99,5 +104,6 @@ main () {
     fi
 
 }
+
 
 main "$@"
