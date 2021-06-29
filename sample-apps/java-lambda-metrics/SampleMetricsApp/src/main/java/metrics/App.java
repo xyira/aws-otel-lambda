@@ -25,20 +25,21 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 
-        // System.out.println("[I!]Launching sample app from lambda handler...");
-        // long requestStartTime = System.currentTimeMillis();
-        // MetricEmitter metricEmitter = buildMetricEmitter();
-        // System.out.println("[I!]Emitting latency metric...");
-        // long latency = System.currentTimeMillis() - requestStartTime;
-        // metricEmitter.emitReturnTimeMetric(latency, "/lambda-sample-app", "200");
-        // System.out.println("[I!]Returning from lambda handler...");
+        System.out.println("[I!]Launching sample app from lambda handler...");
+        long requestStartTime = System.currentTimeMillis();
+        MetricEmitter metricEmitter = buildMetricEmitter();
+        System.out.println("[I!]Emitting latency metric...");
+        long latency = System.currentTimeMillis() - requestStartTime;
+        metricEmitter.emitReturnTimeMetric(latency, "/lambda-sample-app", "200");
+        System.out.println("[I!]Returning from lambda handler...");
 
-        // try {
-        //   System.out.println("[I!]Sleeping for 15s...");
-        //   Thread.sleep(1000 * 15);
-        // } catch (InterruptedException e) {
-        //   e.printStackTrace();
-        // }
+        try {
+          System.out.println("[I!]Sleeping for 15s...");
+          Thread.sleep(1000 * 15);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        
         return response.withStatusCode(200).withBody("Status Code 200");
     }
 }

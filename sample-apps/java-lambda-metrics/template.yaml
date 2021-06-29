@@ -5,25 +5,59 @@ Description: >
 
   Sample SAM Template for java-lambda-metrics
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-Globals:
-  Function:
-    Timeout: 20
-
 Resources:
   SampleMetricsApp:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: SampleMetricsApp
       Handler: metrics.App::handleRequest
       Runtime: java11
       MemorySize: 512
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
-        Variables:
-          PARAM1: VALUE
+      Timeout: 60
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - CloudWatchAgentServerPolicy
+      Layers:
+        - !FindInMap [RegionMap, !Ref "AWS::Region", layer]
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        getEndpoint:
+          Type: Api 
           Properties:
-            Path: /hello
+            Path: /
             Method: get
+
+Mappings:
+  RegionMap:
+    ap-northeast-1:
+      layer: "arn:aws:lambda:ap-northeast-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-northeast-2:
+      layer: "arn:aws:lambda:ap-northeast-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-south-1:
+      layer: "arn:aws:lambda:ap-south-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-southeast-1:
+      layer: "arn:aws:lambda:ap-southeast-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-southeast-2:
+      layer: "arn:aws:lambda:ap-southeast-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ca-central-1:
+      layer: "arn:aws:lambda:ca-central-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-central-1:
+      layer: "arn:aws:lambda:eu-central-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-north-1:
+      layer: "arn:aws:lambda:eu-north-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-west-1:
+      layer: "arn:aws:lambda:eu-west-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-west-2:
+      layer: "arn:aws:lambda:eu-west-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-west-3:
+      layer: "arn:aws:lambda:eu-west-3:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    sa-east-1:
+      layer: "arn:aws:lambda:sa-east-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-east-1:
+      layer: "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-east-2:
+      layer: "arn:aws:lambda:us-east-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-west-1:
+      layer: "arn:aws:lambda:us-west-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-west-2:
+      layer: "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
