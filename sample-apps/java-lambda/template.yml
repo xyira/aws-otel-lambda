@@ -11,8 +11,9 @@ Resources:
   function:
     Type: AWS::Serverless::Function
     Properties:
-      PackageType: Image
-      Description: Build AWS Observability layer
+      Handler: 
+      Runtime: java11
+      CodeUri: function
       MemorySize: 512
       Timeout: 60
       Policies:
@@ -21,6 +22,8 @@ Resources:
         - AWSXrayWriteOnlyAccess
         - CloudWatchAgentServerPolicy
       ReservedConcurrentExecutions: 1
+      Layers:
+        - !FindInMap [RegionMap, !Ref "AWS::Region", layer]
       Events:
         getEndpoint:
           Type: Api
@@ -28,18 +31,38 @@ Resources:
             RestApiId: !Ref api
             Path: /
             Method: GET
-    Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./
-Metadata:
-  AWS::ServerlessRepo::Application:
-    Name: AWS-Distro-for-OpenTelemetry-Java-Sample
-    Description: AWS Distro for Opentelemetry Java Sample
-    Author: aws-observability
-    SpdxLicenseId: Apache-2.0
-    LicenseUrl: LICENSE
-    ReadmeUrl: README.md
-    Labels: ['opentelemetry', 'java', 'sample']
-    HomePageUrl: https://aws.amazon.com/products/management-and-governance/use-cases/monitoring-and-observability/
-    SemanticVersion: 0.1.0
-    SourceCodeUrl: https://github.com/aws-observability/aws-otel-lambda/sample-apps/java-lambda
+
+Mappings:
+  RegionMap:
+    ap-northeast-1:
+      layer: "arn:aws:lambda:ap-northeast-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-northeast-2:
+      layer: "arn:aws:lambda:ap-northeast-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-south-1:
+      layer: "arn:aws:lambda:ap-south-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-southeast-1:
+      layer: "arn:aws:lambda:ap-southeast-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ap-southeast-2:
+      layer: "arn:aws:lambda:ap-southeast-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    ca-central-1:
+      layer: "arn:aws:lambda:ca-central-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-central-1:
+      layer: "arn:aws:lambda:eu-central-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-north-1:
+      layer: "arn:aws:lambda:eu-north-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-west-1:
+      layer: "arn:aws:lambda:eu-west-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-west-2:
+      layer: "arn:aws:lambda:eu-west-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    eu-west-3:
+      layer: "arn:aws:lambda:eu-west-3:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    sa-east-1:
+      layer: "arn:aws:lambda:sa-east-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-east-1:
+      layer: "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-east-2:
+      layer: "arn:aws:lambda:us-east-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-west-1:
+      layer: "arn:aws:lambda:us-west-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+    us-west-2:
+      layer: "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
