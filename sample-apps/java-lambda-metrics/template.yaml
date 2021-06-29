@@ -17,7 +17,6 @@ Resources:
       Policies:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
-        - CloudWatchAgentServerPolicy
       Layers:
         - !FindInMap [RegionMap, !Ref "AWS::Region", layer]
       Events:
@@ -26,7 +25,6 @@ Resources:
           Properties:
             Path: /
             Method: get
-
 Mappings:
   RegionMap:
     ap-northeast-1:
