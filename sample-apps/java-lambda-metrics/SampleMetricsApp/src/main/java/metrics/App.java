@@ -30,7 +30,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         MetricEmitter metricEmitter = buildMetricEmitter();
         System.out.println("[I!]Emitting latency metric...");
         long latency = System.currentTimeMillis() - requestStartTime;
-        metricEmitter.emitReturnTimeMetric(latency, "/lambda-sample-app", "200");
+        metricEmitter.emitQueueSizeChangeMetric(1, "/lambda-sample-app", "200");
         System.out.println("[I!]Returning from lambda handler...");
 
         try {
