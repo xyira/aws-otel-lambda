@@ -26,7 +26,7 @@ public class MetricEmitter {
   IntervalMetricReader reader;
 
   public MetricEmitter() {
-    String otelExporterOtlpEndpoint = System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") != null ? System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") : "127.0.0.1:55680";
+    String otelExporterOtlpEndpoint = System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") != null ? System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") : "localhost:55680";
     MetricExporter metricExporter =
             OtlpGrpcMetricExporter.builder()
                     .setChannel(

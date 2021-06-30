@@ -1,0 +1,3 @@
+python:  "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-python38-ver-1-2-0:1"
+dotnet:       "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-collector-ver-0-27-0:1"
+custom with aws PRW exporter: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector:11"
