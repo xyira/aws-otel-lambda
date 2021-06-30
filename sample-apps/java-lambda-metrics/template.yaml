@@ -1,9 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  java-lambda-metrics
-
-  Sample SAM Template for java-lambda-metrics
+Description: Sample SAM Template for java-lambda-metrics
 
 Resources:
   SampleMetricsApp:
@@ -17,11 +14,10 @@ Resources:
       Environment:
         Variables:
           OTEL_EXPORTER_OTLP_ENDPOINT: localhost:55680
-          OTEL_RESOURCE_ATTRIBUTES: service.namespace=AWSOTel,service.name=AWSOTelSampleApp
+          OTEL_RESOURCE_ATTRIBUTES: service.namespace=OTel,service.name=OTelSampleApp
       Policies:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
         - CloudWatchAgentServerPolicy
         - AmazonPrometheusRemoteWriteAccess
       Layers:
