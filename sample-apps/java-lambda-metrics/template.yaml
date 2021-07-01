@@ -20,6 +20,9 @@ Resources:
         - AWSLambda_ReadOnlyAccess
         - CloudWatchAgentServerPolicy
         - AmazonPrometheusRemoteWriteAccess
+        - AmazonPrometheusConsoleFullAccess
+        - AmazonPrometheusFullAccess
+        - AmazonPrometheusQueryAccess
       Layers:
         - !FindInMap [RegionMap, !Ref "AWS::Region", layer]
       Events:
@@ -30,8 +33,9 @@ Resources:
             Method: get
 Mappings:
   RegionMap:
+     #TODO: add other regions once their layer arns are available
+
     us-east-1:
-      layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector:13" # custom collector layer with AWSPRW (sdeployable + invokable on Lambda)
+      layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw:1" # custom collector layer with the AWSPRW exporter
 
-      #TODO: figure out https://github.com/open-telemetry/opentelemetry-collector/blob/c63d0c68cdd4717883c3bb3d5e3897f3d2da538b/exporter/prometheusremotewriteexporter/helper.go#L204 and https://github.com/open-telemetry/opentelemetry-collector/blob/c63d0c68cdd4717883c3bb3d5e3897f3d2da538b/exporter/prometheusremotewriteexporter/testutil_test.go#L138
-
+  
