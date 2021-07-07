@@ -19,9 +19,6 @@ public class MetricEmitter {
   static final String DIMENSION_API_NAME = "apiName";
   static final String DIMENSION_STATUS_CODE = "statusCode";
 
-  static String API_LATENCY_METRIC = "latency";
-
-  LongValueRecorder apiLatencyRecorder;
   LongUpDownCounter queueSizeCounter;
 
   String latencyMetricName;
@@ -43,14 +40,6 @@ public class MetricEmitter {
             .build();
     Meter meter = GlobalMetricsProvider.getMeter("aws-otel", "1.0");
 
-    latencyMetricName = API_LATENCY_METRIC;
-
-    apiLatencyRecorder =
-        meter
-            .longValueRecorderBuilder(latencyMetricName)
-            .setDescription("API latency time")
-            .setUnit("ms")
-            .build();
     queueSizeCounter =
             meter
                 .longUpDownCounterBuilder("queueSizeChange")
@@ -60,27 +49,16 @@ public class MetricEmitter {
   }
 
   /**
-   * emit http request latency metrics with summary metric type
+   * emit http request queue size metrics
    *
    * @param returnTime
    * @param apiName
    * @param statusCode
    */
-  public void emitReturnTimeMetric(Long returnTime, String apiName, String statusCode) {
-    apiLatencyRecorder.record(
-        returnTime, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE, statusCode));
-    System.out.println(
-            "emit metric (name:latency) " + returnTime + "," + apiName + "," + statusCode + "," + latencyMetricName);
-  }
-
   public void emitQueueSizeChangeMetric(int queueSizeChange, String apiName, String statusCode) {
         System.out.println(
             "emit metric with queue size change " + queueSizeChange + "," + apiName + "," + statusCode);
         queueSizeCounter.add(
             queueSizeChange, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE, statusCode));
       }
-
-  public void shutDown() {
-    reader.shutdown();
-  }
 }
