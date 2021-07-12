@@ -1,3 +1,4 @@
 [submodule "opentelemetry-lambda"]
 	path = opentelemetry-lambda
-	url = https://github.com/open-telemetry/opentelemetry-lambda.git
+	url = https://github.com/open-o11y/opentelemetry-lambda.git
+	branch = upstream-java-metrics-app
