@@ -21,6 +21,8 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         metricEmitter.emitQueueSizeChangeMetric(1, "/lambda-sample-app", "200");
         System.out.println("[I!]Returning from lambda handler...");
 
+        // TODO: Call forceFlush() once Java Metrics SDK includes it
+
         return response.withStatusCode(200).withBody("Status Code 200");
     }
 }
