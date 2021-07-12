@@ -19,6 +19,7 @@ jobs:
           - java-awssdk-agent
           - java-awssdk-wrapper
           - java-okhttp-wrapper
+          - java-metrics-prometheus
           - nodejs-awssdk
           - python38
           - dotnet-awssdk-wrapper
@@ -41,6 +42,12 @@ jobs:
             build_command: ./build.sh
             terraform_directory: sample-apps/java-wrapper-okhttp-terraform
             expected_template: adot/utils/expected-templates/java-okhttp-wrapper.json
+           - name: java-metrics-prometheus
+            language: java
+            build_directory: java
+            build_command: ./build.sh
+            terraform_directory: sample-apps/java-metrics-prometheus-terraform
+            expected_template: adot/utils/expected-templates/java-metrics-prometheus.json
           - name: nodejs-awssdk
             language: nodejs
             build_directory: opentelemetry-lambda/nodejs
