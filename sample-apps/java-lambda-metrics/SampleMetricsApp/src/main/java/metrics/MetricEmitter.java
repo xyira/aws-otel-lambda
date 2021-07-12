@@ -3,7 +3,6 @@ package metrics;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.metrics.GlobalMetricsProvider;
 import io.opentelemetry.api.metrics.common.Labels;
-import io.opentelemetry.api.metrics.LongValueRecorder;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
@@ -21,7 +20,6 @@ public class MetricEmitter {
 
   LongUpDownCounter queueSizeCounter;
 
-  String latencyMetricName;
   IntervalMetricReader reader;
 
   public MetricEmitter() {

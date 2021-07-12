@@ -42,7 +42,7 @@ jobs:
             build_command: ./build.sh
             terraform_directory: sample-apps/java-wrapper-okhttp-terraform
             expected_template: adot/utils/expected-templates/java-okhttp-wrapper.json
-           - name: java-metrics-prometheus
+          - name: java-metrics-prometheus
             language: java
             build_directory: java
             build_command: ./build.sh
