@@ -48,7 +48,7 @@ jobs:
             language: java
             build_directory: java
             build_command: ./build.sh
-            terraform_directory: sample-apps/java-metrics-prometheus-terraform
+            terraform_directory: sample-apps/java-metrics-prometheus
             expected_template: adot/utils/expected-templates/java-metrics-prometheus.json
           - name: nodejs-awssdk
             language: nodejs

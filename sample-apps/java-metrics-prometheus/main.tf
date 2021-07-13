@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 module "app" {
-  source = "../../opentelemetry-lambda/java/sample-apps/metrics/deploy"
+  source = "../../opentelemetry-lambda/java/sample-apps/metrics-prometheus/deploy"
 
   name                = var.function_name
   collector_layer_arn = lookup(local.collector_layer_arns, data.aws_region.current.name, "invalid")
