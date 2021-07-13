@@ -12,13 +12,13 @@ The Java Agent and Wrapper are not needed for this sample application, just a Co
 - [Terraform](https://www.terraform.io/downloads.html)
 - AWS credentials, either using environment variables or via the CLI and `aws configure`
 
-First, navigate to [SampleMetricsApp](./deploy/wrapper) and  build all the artifacts. 
+First, navigate to [SampleMetricsApp](./SampleMetricsApp/) (or if you are in downstream aws-otel-lambda, navigate to upstream opentelemetry-lambda [SampleMetricsApp](../../opentelemetry-lambda/java/sample-apps/metrics-prometheus/SampleMetricsApp)).
 
 ```
 ./gradlew build
 ```
 
-Then, navigate to [deploy](./deploy) and deploy with Terraform.
+Then, navigate to [java-metrics-prometheus](./../java-metrics-prometheus/) and deploy with Terraform.
 
 ```
 terraform init
