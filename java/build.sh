@@ -40,3 +40,8 @@ cp "$SOURCEDIR"/scripts/* .
 unzip -qo ../../../../collector/build/collector-extension.zip
 zip -qr opentelemetry-java-wrapper.zip *
 popd || exit
+
+
+# Build 'metrics-prometheus' sample app
+cd ../opentelemetry-lambda/java/sample-apps/metrics-prometheus/SampleMetricsApp
+./gradlew build # not working at the moment
