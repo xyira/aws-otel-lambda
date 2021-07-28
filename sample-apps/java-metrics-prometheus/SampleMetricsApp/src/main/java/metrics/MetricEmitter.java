@@ -12,11 +12,13 @@ import io.opentelemetry.sdk.autoconfigure.OpenTelemetrySdkAutoConfiguration;
 import io.opentelemetry.api.metrics.LongUpDownCounter;
 
 import java.util.Collections;
+import java.util.UUID;
 
 public class MetricEmitter {
 
   static final String DIMENSION_API_NAME = "apiName";
   static final String DIMENSION_STATUS_CODE = "statusCode";
+  static final String DIMENSION_UUID = "uuid";
 
   LongUpDownCounter queueSizeCounter;
 
@@ -53,10 +55,10 @@ public class MetricEmitter {
    * @param apiName
    * @param statusCode
    */
-  public void emitQueueSizeChangeMetric(int queueSizeChange, String apiName, String statusCode) {
+  public void emitQueueSizeChangeMetric(int queueSizeChange, String apiName, String statusCode, String uuid) {
         System.out.println(
-            "emit metric with queue size change " + queueSizeChange + "," + apiName + "," + statusCode);
+            "emit metric with queue size change " + queueSizeChange + "," + apiName + "," + statusCode + "," + uuid);
         queueSizeCounter.add(
-            queueSizeChange, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE, statusCode));
+            queueSizeChange, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE, statusCode, DIMENSION_UUID, uuid));
       }
 }
