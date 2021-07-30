@@ -22,7 +22,7 @@ public class MetricEmitter {
         LongUpDownCounter queueSizeCounter;
 
         IntervalMetricReader reader;
-
+        MetricExporter metricExporter; 
         public MetricEmitter() {
                 String otelExporterOtlpEndpoint = System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") != null
                                 ? System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
@@ -35,7 +35,7 @@ public class MetricEmitter {
                                 .setMetricProducers(Collections.singleton(SdkMeterProvider.builder()
                                                 .setResource(OpenTelemetrySdkAutoConfiguration.getResource())
                                                 .buildAndRegisterGlobal()))
-                                .setExportIntervalMillis(50).setMetricExporter(metricExporter).build();
+                                .setExportIntervalMillis(1000).setMetricExporter(metricExporter).build();
                 Meter meter = GlobalMeterProvider.getMeter("aws-otel", "1.0");
 
                 queueSizeCounter = meter.longUpDownCounterBuilder("queueSizeChange").setDescription("Queue Size change")
@@ -53,17 +53,20 @@ public class MetricEmitter {
 
                 queueSizeCounter.add(queueSizeChange, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE,
                                 statusCode, DIMENSION_UUID, uuid));
-                System.out.println("emitted metric queueSizeChange with " + queueSizeChange + "," + apiName + ","
+
+                System.out.println("emitted metric queueSizeChange with " + queueSizeCounter.toString() + "," + apiName + ","
                                 + statusCode + "," + uuid);
         }
 
         public void forceFlush() {
-                reader.forceFlush();
+                System.out.println(reader.forceFlush());
+                // System.out.println(metricExporter.flush());
                 System.out.println("forceflush of metric from IntervalMetricReader");
         }
 
         public void shutdown() {
-                reader.shutdown();
+                System.out.println(reader.shutdown());
+                // System.out.println(metricExporter.shutdown());
                 System.out.println("shutdown of IntervalMetricReader");
         }
 }
