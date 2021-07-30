@@ -1,7 +1,7 @@
 package metrics;
 
 import io.grpc.ManagedChannelBuilder;
-import io.opentelemetry.api.metrics.GlobalMetricsProvider;
+import io.opentelemetry.api.metrics.GlobalMeterProvider;
 import io.opentelemetry.api.metrics.common.Labels;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
@@ -12,53 +12,58 @@ import io.opentelemetry.sdk.autoconfigure.OpenTelemetrySdkAutoConfiguration;
 import io.opentelemetry.api.metrics.LongUpDownCounter;
 
 import java.util.Collections;
-import java.util.UUID;
 
 public class MetricEmitter {
 
-  static final String DIMENSION_API_NAME = "apiName";
-  static final String DIMENSION_STATUS_CODE = "statusCode";
-  static final String DIMENSION_UUID = "uuid";
+        static final String DIMENSION_API_NAME = "apiName";
+        static final String DIMENSION_STATUS_CODE = "statusCode";
+        static final String DIMENSION_UUID = "uuid";
 
-  LongUpDownCounter queueSizeCounter;
+        LongUpDownCounter queueSizeCounter;
 
-  IntervalMetricReader reader;
+        IntervalMetricReader reader;
 
-  public MetricEmitter() {
-    String otelExporterOtlpEndpoint = System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") != null ? System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") : "127.0.0.1:55680";
-    MetricExporter metricExporter =
-            OtlpGrpcMetricExporter.builder()
-                    .setChannel(
-                            ManagedChannelBuilder.forTarget(otelExporterOtlpEndpoint).usePlaintext().build())
-                    .build();
+        public MetricEmitter() {
+                String otelExporterOtlpEndpoint = System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT") != null
+                                ? System.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
+                                : "127.0.0.1:55680";
+                MetricExporter metricExporter = OtlpGrpcMetricExporter.builder().setChannel(
+                                ManagedChannelBuilder.forTarget(otelExporterOtlpEndpoint).usePlaintext().build())
+                                .build();
 
-    reader = IntervalMetricReader.builder()
-            .setMetricProducers(
-                    Collections.singleton(SdkMeterProvider.builder().setResource(OpenTelemetrySdkAutoConfiguration.getResource()).buildAndRegisterGlobal()))
-            .setExportIntervalMillis(5000)
-            .setMetricExporter(metricExporter)
-            .build();
-    Meter meter = GlobalMetricsProvider.getMeter("aws-otel", "1.0");
+                reader = IntervalMetricReader.builder()
+                                .setMetricProducers(Collections.singleton(SdkMeterProvider.builder()
+                                                .setResource(OpenTelemetrySdkAutoConfiguration.getResource())
+                                                .buildAndRegisterGlobal()))
+                                .setExportIntervalMillis(50).setMetricExporter(metricExporter).build();
+                Meter meter = GlobalMeterProvider.getMeter("aws-otel", "1.0");
 
-    queueSizeCounter =
-            meter
-                .longUpDownCounterBuilder("queueSizeChange")
-                .setDescription("Queue Size change")
-                .setUnit("one")
-                .build();
-  }
+                queueSizeCounter = meter.longUpDownCounterBuilder("queueSizeChange").setDescription("Queue Size change")
+                                .setUnit("one").build();
+        }
 
-  /**
-   * emit http request queue size metrics
-   *
-   * @param returnTime
-   * @param apiName
-   * @param statusCode
-   */
-  public void emitQueueSizeChangeMetric(int queueSizeChange, String apiName, String statusCode, String uuid) {
-        System.out.println(
-            "emit metric with queue size change " + queueSizeChange + "," + apiName + "," + statusCode + "," + uuid);
-        queueSizeCounter.add(
-            queueSizeChange, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE, statusCode, DIMENSION_UUID, uuid));
-      }
+        /**
+         * emit http request queue size metrics
+         *
+         * @param returnTime
+         * @param apiName
+         * @param statusCode
+         */
+        public void emitQueueSizeChangeMetric(int queueSizeChange, String apiName, String statusCode, String uuid) {
+
+                queueSizeCounter.add(queueSizeChange, Labels.of(DIMENSION_API_NAME, apiName, DIMENSION_STATUS_CODE,
+                                statusCode, DIMENSION_UUID, uuid));
+                System.out.println("emitted metric queueSizeChange with " + queueSizeChange + "," + apiName + ","
+                                + statusCode + "," + uuid);
+        }
+
+        public void forceFlush() {
+                reader.forceFlush();
+                System.out.println("forceflush of metric from IntervalMetricReader");
+        }
+
+        public void shutdown() {
+                reader.shutdown();
+                System.out.println("shutdown of IntervalMetricReader");
+        }
 }
