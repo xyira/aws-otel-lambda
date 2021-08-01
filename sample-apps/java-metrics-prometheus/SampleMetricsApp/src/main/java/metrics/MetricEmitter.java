@@ -35,7 +35,7 @@ public class MetricEmitter {
                                 .setMetricProducers(Collections.singleton(SdkMeterProvider.builder()
                                                 .setResource(OpenTelemetrySdkAutoConfiguration.getResource())
                                                 .buildAndRegisterGlobal()))
-                                .setExportIntervalMillis(1000).setMetricExporter(metricExporter).build();
+                                .setExportIntervalMillis(10000).setMetricExporter(metricExporter).build();
                 Meter meter = GlobalMeterProvider.getMeter("aws-otel", "1.0");
 
                 queueSizeCounter = meter.longUpDownCounterBuilder("queueSizeChange").setDescription("Queue Size change")

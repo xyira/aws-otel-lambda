@@ -20,15 +20,17 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 
         MetricEmitter metricEmitter = buildMetricEmitter();
-        String uuid = UUID.randomUUID().toString();
-        metricEmitter.emitQueueSizeChangeMetric(1, "/lambda-sample-app", "200", uuid);
+        for(int i = 0; i < 70; i++){
+            String uuid = UUID.randomUUID().toString();
+            metricEmitter.emitQueueSizeChangeMetric(i, "/lambda-sample-app", "200", uuid);
+        }
         System.out.println("[I!]Returning from lambda handler...");
 
         metricEmitter.forceFlush();
 
         // Temporary hack:
         try {
-        Thread.sleep(2000);
+        Thread.sleep(15000);
         } catch (InterruptedException e) {
         e.printStackTrace();
         }
