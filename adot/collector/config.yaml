@@ -7,6 +7,11 @@ receivers:
 exporters:
   logging:
   awsxray:
+  awsprometheusremotewrite: 
+    endpoint: "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-aa651671-f9af-4237-9f4f-b77476b4a77a/api/v1/remote_write"
+    aws_auth:
+      service: "aps"
+      region: "us-east-1"
 
 service:
   pipelines:
@@ -15,4 +20,4 @@ service:
       exporters: [awsxray]
     metrics:
       receivers: [otlp]
-      exporters: [logging]
+      exporters: [logging, awsprometheusremotewrite]
