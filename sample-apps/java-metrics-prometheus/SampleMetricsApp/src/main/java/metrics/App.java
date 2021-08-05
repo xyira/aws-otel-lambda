@@ -21,8 +21,8 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
         MetricEmitter metricEmitter = buildMetricEmitter();
         for(int i = 0; i < 70; i++){
-            String uuid = UUID.randomUUID().toString();
-            metricEmitter.emitQueueSizeChangeMetric(i, "/lambda-sample-app", "200", uuid);
+            // String uuid = UUID.randomUUID().toString();
+            metricEmitter.emitQueueSizeChangeMetric(1, "/lambda-sample-app", "200", 1); // same uuid for all metrics
         }
         System.out.println("[I!]Returning from lambda handler...");
 

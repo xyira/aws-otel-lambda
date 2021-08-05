@@ -36,6 +36,13 @@ Mappings:
      #TODO: add other regions once their layer arns are available
 
     us-east-1:
-      layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw:3" # custom collector layer with the AWSPRW exporter
-
-  
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw:3" # custom collector layer with the AWSPRW exporter
+      layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws1:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws2:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws3:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws4:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws5:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws6:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws7:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws8:1" # custom collector layer with the AWSPRW exporter
+      # layer: "arn:aws:lambda:us-east-1:614732350472:layer:otel-collector-with-awsprw-ws9:1" # custom collector layer with the AWSPRW exporter
