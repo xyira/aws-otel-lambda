@@ -1,4 +1,3 @@
 [submodule "opentelemetry-lambda"]
 	path = opentelemetry-lambda
-	url = https://github.com/open-o11y/opentelemetry-lambda.git
-    branch = java-metrics
+	url = https://github.com/open-telemetry/opentelemetry-lambda.git
