@@ -1,5 +1,5 @@
 [{"metric":
-    {"__name__":"queueSizeChange","apiName":"/lambda-sample-app","statusCode":"200"},
+    {"__name__":"queueSizeChange","apiName":"apiName","statuscode":"200"},
   "value":
     [],
   "values":
