@@ -1,0 +1,23 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  logging:
+  awsxray:
+  awsprometheusremotewrite: 
+    endpoint: "<remote_write_endpoint>"
+    aws_auth:
+      service: "aps"
+      region: "<workspace_region>"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [awsxray]
+    metrics:
+      receivers: [otlp]
+      exporters: [logging, awsprometheusremotewrite]

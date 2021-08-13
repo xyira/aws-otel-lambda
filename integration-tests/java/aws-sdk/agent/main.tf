@@ -17,3 +17,10 @@ resource "aws_iam_role_policy_attachment" "test_amp" {
   role       = module.test.function_role_name
   policy_arn = "arn:aws:iam::aws:policy/AmazonPrometheusFullAccess"
 }
+
+
+resource "aws_lambda_layer_version" "lambda_layer" {
+  filename   = "../../../amp-terraform/custom-config-layer.zip"
+  layer_name = "custom_collector_config"
+  compatible_runtimes = ["java11"]
+}
