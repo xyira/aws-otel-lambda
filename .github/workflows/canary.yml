@@ -155,15 +155,15 @@ jobs:
         with:
           repository: aws-observability/aws-otel-test-framework
           path: test-framework
-      - name: validate trace sample
-        uses: nick-invision/retry@v2
-        with:
-          timeout_seconds: 300
-          max_attempts: 3
-          command: |
-            cp ${{ matrix.expected_template }} test-framework/validator/src/main/resources/expected-data-template/lambdaExpectedTrace.mustache
-            cd test-framework
-            ./gradlew :validator:run --args="-c default-lambda-validation.yml --endpoint ${{ steps.extract-endpoint.outputs.stdout }} --region $AWS_REGION"
+      # - name: validate trace sample
+      #   uses: nick-invision/retry@v2
+      #   with:
+      #     timeout_seconds: 300
+      #     max_attempts: 3
+      #     command: |
+      #       cp ${{ matrix.expected_template }} test-framework/validator/src/main/resources/expected-data-template/lambdaExpectedTrace.mustache
+      #       cd test-framework
+      #       ./gradlew :validator:run --args="-c default-lambda-validation.yml --endpoint ${{ steps.extract-endpoint.outputs.stdout }} --region $AWS_REGION"
       # add back in once the java-agent layer is published and the ARNs are available
       # - name: validate java agent metric sample
       #   if: ${{ matrix.name == 'java-awssdk-agent' && contains(matrix.amp_regions, matrix.aws_region)}}

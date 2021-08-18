@@ -14,7 +14,7 @@ locals {
     "eu-west-3"      = "arn:aws:lambda:eu-west-3:901920570463:layer:aws-otel-java-agent-ver-1-2-0:2"
     "sa-east-1"      = "arn:aws:lambda:sa-east-1:901920570463:layer:aws-otel-java-agent-ver-1-2-0:2"
     "us-east-1"      = "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-java-agent-ver-1-2-0:2"
-    "us-east-2"      = "arn:aws:lambda:us-east-2:901920570463:layer:aws-otel-java-agent-ver-1-2-0:2"
+    "us-east-2"      = "arn:aws:lambda:us-east-2:614732350472:layer:opentelemetry-java-agent:20"
     "us-west-1"      = "arn:aws:lambda:us-west-1:901920570463:layer:aws-otel-java-agent-ver-1-2-0:2"
     "us-west-2"      = "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-java-agent-ver-1-2-0:2"
   }
